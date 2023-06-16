@@ -1,161 +1,267 @@
-import React from 'react'
-import { Grid, Button, TextField, makeStyles, useTheme, Select, OutlinedInput, MenuItem, FormControl, InputLabel } from '@material-ui/core';
+import React, { useState } from 'react';
+import {
+  Grid,
+  Button,
+  TextField,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
+  InputAdornment,
+  Chip,
+  IconButton,
+} from '@material-ui/core';
+import Autocomplete from '@mui/material/Autocomplete';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import Box from '@mui/material/Box';
+import SearchIcon from '@mui/icons-material/Search';
 
-const useStyle = makeStyles(theme => ({
-  root : {
-    '& .MuiButtonBase-root' : {
-     
-      margin:theme.spacing(1)
-    },
-    '& .MuiInputBase-root' : {
-     
-      margin:theme.spacing(1)
+const SearchBar = ({ label }) => {
+  const [searchValue, setSearchValue] = useState('');
+  const [tags, setTags] = useState([]);
+
+  const handleAddTag = () => {
+    if (searchValue !== '') {
+      setTags([...tags, searchValue]);
+      setSearchValue('');
     }
-  }
-}) )
-
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
-    },
-  },
-};
-
-const names = [
-  'SHOULD BE LIST OF PROJECTS'
-];
-
-function getStyles(name, personName, theme) {
-  return {
-    fontWeight:
-      personName.indexOf(name) === -1
-        ? theme.typography.fontWeightRegular
-        : theme.typography.fontWeightMedium,
   };
-}
 
-
-export default function CandidateRequirement() {
-
-    // const [values, setValues] = useState();
-    const textFieldStyle = {
-      width: '115px', // Set the desired width
-      
-    };
-
-    const normaltextFieldStyle = {
-      width: '260px', // Set the desired width
-      
-    };  
-
-    
-    const classes = useStyle();
-
-    const theme = useTheme();
-    const [personName, setPersonName] = React.useState([]);
-  
-    const handleChange = (event) => {
-      const {
-        target: { value },
-      } = event;
-      setPersonName(
-        // On autofill we get a stringified value.
-        typeof value === 'string' ? value.split(',') : value,
-      );
-    };
+  const handleDeleteTag = (tag) => {
+    setTags(tags.filter((t) => t !== tag));
+  };
 
   return (
-    
-    <form className={classes.root}>
-      
-        <Grid container>
+    <div>
+      <Autocomplete
+        freeSolo
+        options={[]}
+        value={searchValue}
+        onChange={(e) => setSearchValue(e.target.value)}
+        renderInput={(params) => (
+          <TextField {...params} label={label} fullWidth />
+        )}
+      />
+      <div>
+        {tags.map((tag) => (
+          <Chip
+            key={tag}
+            label={tag}
+            onDelete={() => handleDeleteTag(tag)}
+            style={{ marginRight: 5 }}
+          />
+        ))}
+      </div>
+      <IconButton onClick={handleAddTag}>
+        <AddCircleOutlineIcon />
+      </IconButton>
+    </div>
+  );
+};
+
+const CandidateRequirementForm = () => {
+  const [positions, setPositions] = useState(1);
+  const [maxBudget, setMaxBudget] = useState('');
+
+  const handlePositionChange = (value) => {
+    setPositions(value);
+  };
+
+  const handleAddPosition = () => {
+    setPositions(positions + 1);
+  };
+
+  const handleRemovePosition = () => {
+    if (positions > 1) {
+      setPositions(positions - 1);
+    }
+  };
+
+  const handleMaxBudgetChange = (value) => {
+    setMaxBudget(value);
+  };
+
+  const handleSearchJD = () => {
+    console.log('Search JD button clicked');
+  };
+
+  const handleSearchPastRequirements = () => {
+    console.log('Search past requirements button clicked');
+  };
+
+  const handleSubmit = () => {
+    console.log('Form submitted');
+  };
+
+  const handleCancel = () => {
+    console.log('Form cancelled');
+  };
+
+  return (
+    <div style={{ margin: '20px' }}>
+      <Grid container spacing={2}>
+        <Grid item xs={12} sm={6}>
+          <Button
+            variant="outlined"
+            onClick={handleSearchPastRequirements}
+            style={{ width: '100%' }}
+          >
+            Search Past Requirement
+          </Button>
+          <TextField label="Job Role" fullWidth style={{ width: '100%' }} />
+          <Grid container spacing={1}>
             <Grid item xs={6}>
-             <Button variant="outlined" href="#outlined-buttons">Search Past Requirement</Button><br/>
-             <TextField  id="outlined-size-small" label="Job Role" variant="outlined"  size="small" style={normaltextFieldStyle}/><br/>
-             <TextField  id="outlined-size-small" label="Experience" variant="outlined"  size="small" style={textFieldStyle}/> <b>To</b> <TextField id="outlined-basic" label="Experience" variant="outlined"  size="small" style={textFieldStyle}/><br/>
-                
-             <Select
-          labelId="demo-multiple-name-label"
-          id="demo-multiple-name"
-          multiple
-          value={personName}
-          style={{width: 240, height: 43}}
-          
-          onChange={handleChange}
-          input={<OutlinedInput label="Name" />}
-          MenuProps={MenuProps}
-        >
-          {names.map((name) => (
-            <MenuItem
-              key={name}
-              value={name}
-              style={getStyles(name, personName, theme)}
-            >
-              {name}
-            </MenuItem>
-          ))}
-        </Select><AddCircleOutlineIcon style={{fontSize: 45}}/>
-              <br/>
-              <TextField  id="outlined-size-small" label="Primary Skills" variant="outlined"  size="small" style={normaltextFieldStyle}/><AddCircleOutlineIcon style={{fontSize: 45}}/><br/>
-              <Box
-                  sx={{
-                    width: 240,
-                    height: 100,
-                    border: '1px solid lightgrey',
-                    marginLeft: '5px',
-                  }}
-                >
-                  <TextField
-                    id="outlined-search"
-                    label="Search Primary Skills"
-                    type="search"
-                    variant="outlined"
-                    style={{ width: '100%', height: '20%' }}
-                />
-              </Box> 
-
-              <TextField  id="outlined-size-small" type="date" variant="outlined"  size="small" style={normaltextFieldStyle}/><br/>
-        
-              <FormControl sx={{ m: 1, minWidth: 120 }}>
-        <InputLabel id="demo-simple-select-helper-label">Interview Level</InputLabel>
-        <Select
-          labelId="demo-simple-select-helper-label"
-          id="demo-simple-select-helper"
-          
-          style={{width: 240 , height: 43}}
-          label="Employment Type"
-          onChange={handleChange}
-        >
-          <MenuItem value="">
-            <em>None</em>
-          </MenuItem>
-          <MenuItem >Employment Type</MenuItem>
-          <MenuItem >Permanant</MenuItem>
-          <MenuItem >Contract</MenuItem>
-          <MenuItem >Part Time</MenuItem>
-          <MenuItem >Freelance</MenuItem>
-          <MenuItem >Internship</MenuItem>
-          <MenuItem >Apprenticeship</MenuItem>
-          <MenuItem >Remote</MenuItem>
-          
-        </Select>
-        
-      </FormControl>
-   
-        </Grid>
-
-
-            <Grid item xs={6}>
-             <Button variant="outlined" href="#outlined-buttons">Search JD</Button>
+              <TextField
+                label="Experience From"
+                fullWidth
+                style={{ width: '100%' }}
+              />
             </Grid>
+            <Grid item xs={6}>
+              <TextField
+                label="Experience To"
+                fullWidth
+                style={{ width: '100%' }}
+              />
+            </Grid>
+          </Grid>
+          <FormControl fullWidth style={{ width: '100%' }}>
+            <InputLabel>Project</InputLabel>
+            <Select fullWidth>
+              <MenuItem>Project 1</MenuItem>
+              <MenuItem>Project 2</MenuItem>
+              <MenuItem>Project 3</MenuItem>
+            </Select>
+          </FormControl>
+          <Button>
+            <AddCircleOutlineIcon /> Add Project
+          </Button>
+          <SearchBar label="Primary Skills" />
+          <TextField
+            label="Required By"
+            type="date"
+            fullWidth
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+          <FormControl fullWidth style={{ width: '100%' }}>
+            <InputLabel>Employment Type</InputLabel>
+            <Select fullWidth>
+              <MenuItem>Full-time</MenuItem>
+              <MenuItem>Part-time</MenuItem>
+              <MenuItem>Contract</MenuItem>
+              <MenuItem>Freelance</MenuItem>
+            </Select>
+          </FormControl>
+          <FormControl fullWidth style={{ width: '100%' }}>
+            <InputLabel>Preferred Gender</InputLabel>
+            <Select fullWidth>
+              <MenuItem>Male</MenuItem>
+              <MenuItem>Female</MenuItem>
+              <MenuItem>Other</MenuItem>
+            </Select>
+          </FormControl>
         </Grid>
 
-    </form>
-  )
-}
+        <Grid item xs={12} sm={6}>
+          <Button
+            variant="outlined"
+            onClick={handleSearchJD}
+            style={{ width: '100%' }}
+          >
+            Search JD
+          </Button>
+          <Grid container spacing={1} alignItems="center">
+            <Grid item xs={2}>
+              <Button onClick={handleAddPosition}>+</Button>
+            </Grid>
+            <Grid item xs={4}>
+              <TextField
+                label="Number of Positions"
+                value={positions}
+                onChange={(e) => handlePositionChange(e.target.value)}
+                fullWidth
+                style={{ width: '100%' }}
+              />
+            </Grid>
+            <Grid item xs={2}>
+              <Button onClick={handleRemovePosition}>-</Button>
+            </Grid>
+            <Grid item xs={12}>
+              <FormControl fullWidth style={{ width: '100%' }}>
+                <InputLabel>Job Location</InputLabel>
+                <Select fullWidth>
+                  <MenuItem>Location 1</MenuItem>
+                  <MenuItem>Location 2</MenuItem>
+                  <MenuItem>Location 3</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+          </Grid>
+          <div style={{ width: '100%' }}>
+            <FormControl fullWidth>
+              <InputLabel>Max Budget</InputLabel>
+              <Select
+                value={maxBudget}
+                onChange={(e) => handleMaxBudgetChange(e.target.value)}
+                fullWidth
+                startAdornment={
+                  <InputAdornment position="start">
+                    <Button
+                      variant="outlined"
+                      size="small"
+                      disableRipple
+                      style={{ minWidth: 0 }}
+                    >
+                      Currency
+                    </Button>
+                  </InputAdornment>
+                }
+              >
+                <MenuItem>Action</MenuItem>
+              </Select>
+            </FormControl>
+          </div>
+          <SearchBar label="Secondary Skills" />
+          <FormControl fullWidth style={{ width: '100%' }}>
+            <InputLabel>Position Level</InputLabel>
+            <Select fullWidth>
+              <MenuItem>Level 1</MenuItem>
+              <MenuItem>Level 2</MenuItem>
+              <MenuItem>Level 3</MenuItem>
+            </Select>
+          </FormControl>
+          <FormControl fullWidth style={{ width: '100%' }}>
+            <InputLabel>Work Mode</InputLabel>
+            <Select fullWidth>
+              <MenuItem>Mode 1</MenuItem>
+              <MenuItem>Mode 2</MenuItem>
+              <MenuItem>Mode 3</MenuItem>
+            </Select>
+          </FormControl>
+          <TextField
+            label="Period of Contract (if applicable)"
+            fullWidth
+            style={{ width: '100%' }}
+          />
+        </Grid>
+      </Grid>
+
+      <div style={{ marginTop: '20px' }}>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleSubmit}
+          style={{ marginRight: '10px' }}
+        >
+          Submit
+        </Button>
+        <Button variant="contained" color="secondary" onClick={handleCancel}>
+          Cancel
+        </Button>
+      </div>
+    </div>
+  );
+};
+
+export default CandidateRequirementForm;
