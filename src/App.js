@@ -1,3 +1,4 @@
+import Navbar from "./Navbar";
 //import logo from './logo.svg';
 import './App.css';
 import CandidateRequirement from './Pages/CandidateRequirement';
@@ -11,21 +12,22 @@ import Button from '@mui/material/Button';
 import * as React from 'react'
 import CreateProject from './CreateProject';
 
-import ScheduleInterview from './pages/ScheduleInterview';
+import ScheduleInterview from './Pages/ScheduleInterview';
 
 
 function App() {
   return (
+    <Navbar></Navbar>
+    // <div className="App">
+    //   <div>
+    //     <h1>Create New Project</h1>
+    //     {/* <CreateProject /> */}
+    //     {/* <Sidenav /> */}
+    //     {/* <CandidateRequirement /> */}
+    //     {/* <ScheduleInterview /> */}
 
-    <div className="App">
-      <div>
-        <h1>Create New Project</h1>
-        {/* <CreateProject /> */}
-        {/* <Sidenav /> */}
-        {/* <CandidateRequirement /> */}
-        <ScheduleInterview />
-      </div>
-    </div>
+    //   </div>
+    // </div>
   );
 }
 export default App;
