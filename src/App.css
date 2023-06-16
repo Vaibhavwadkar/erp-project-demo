@@ -1,3 +1,7 @@
+#outlined-size-small b {
+  margin-top: 50%;
+}
+
 .App {
   text-align: center;
 }
@@ -32,7 +36,58 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
+}
+
+
+.form-input {
+  margin-bottom: 60px;
+}
+
+input {
+  margin-top: 5px;
+  width: 20%;
+  height: 10px;
+  padding: 5px;
+  margin-right: 10px;
+}
+
+
+.form-container {
+  display: flex;
+}
+
+
+.textfield {
+  margin-bottom: 10px;
+  /* Add margin between the text fields */
+  margin-top: 10px;
+}
+
+
+textfield {
+  margin-bottom: 10px;
+  margin-top: 10px;
+  width: 20%;
+  height: 10px;
+}
+
+.container {
+  height: 500px;
+  /* Set a fixed height for the container */
+  overflow-y: scroll;
+  /* Enable vertical scrollbar */
+}
+
+.form-part {
+  flex: 1;
+  padding: 1px;
+}
+
+.textarea {
+  flex: 1;
+
 }
