@@ -1,3 +1,4 @@
+//import logo from './logo.svg';
 import './App.css';
 import CandidateRequirement from './Pages/CandidateRequirement';
 import Sidenav from './Sidenav';
@@ -10,14 +11,19 @@ import Button from '@mui/material/Button';
 import * as React from 'react'
 import CreateProject from './CreateProject';
 
+import ScheduleInterview from './pages/ScheduleInterview';
+
+
 function App() {
   return (
+
     <div className="App">
       <div>
         <h1>Create New Project</h1>
         {/* <CreateProject /> */}
         {/* <Sidenav /> */}
-        <CandidateRequirement />
+        {/* <CandidateRequirement /> */}
+        <ScheduleInterview />
       </div>
     </div>
   );
